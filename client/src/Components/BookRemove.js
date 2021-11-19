@@ -1,6 +1,6 @@
-import React from 'react'
-import './BookCreate.css'
-import {useState} from 'react'
+import React, {useState} from 'react';
+import axios from 'axios';
+import './BookCreate.css';
 
 function BookRemove() {
     const [bookName, setBookName] = useState('')
@@ -14,19 +14,37 @@ function BookRemove() {
     const [style, setStyle] = useState('')
 
     const handleRemoveBook = () => {
-        if (bookName !== '' ||
-            author !== '' ||
-            publisher !== '' ||
-            publishedYear != null ||
-            money != null ||
-            day != null ||
-            month != null ||
-            year != null ||
+        if (bookName !== '' &&
+            author !== '' &&
+            publisher !== '' &&
+            publishedYear != null &&
+            money != null &&
+            day != null &&
+            month != null &&
+            year != null &&
             style !== '') {
-            // await axios.post()
-            // .then
+            axios.post('http://localhost:5000/admin/xoasach', {
+                tenSach: bookName,
+                tacGia: author,
+                nxb: publisher,
+                namxb: publishedYear,
+                triGia: money,
+                ngay: day,
+                thang: month,
+                nam: year,
+                theLoai: style,
+            })
+            .then(res => {
+                console.log(res)
+                if(res.data[0] === 1) {
+                    alert('Sách đã được xóa khỏi hệ thống!');
+                }
+                if(res.data[0] === 0) {
+                    alert('Sách không tồn tại trong hệ thống!')
+                }
+            })
         } else {
-            alert("Vui lòng nhập ít nhất 1 thông tin")
+            alert("Vẫn còn thông tin chưa được nhập!")
         }
     }
 
@@ -88,17 +106,16 @@ function BookRemove() {
             <i className="fas fa-business-time"></i>
             <label>Ngày lập thẻ</label>
             <span className="element__number-wrapper"
-                ><input type="number" min="1" max="31" value="10" onChange={e => setDay(e.target.value)}
+                ><input type="number" min="1" max="31" onChange={e => setDay(e.target.value)}
             /></span>
             <span className="element__number-wrapper"
-                ><input type="number" min="1" max="12" value="10" onChange={e => setMonth(e.target.value)}
+                ><input type="number" min="1" max="12" onChange={e => setMonth(e.target.value)}
             /></span>
             <span className="element__number-wrapper"
                 ><input
                 type="number"
                 min="1899"
                 max="2021"
-                value="2001"
                 onChange={e => setYear(e.target.value)}
             /></span>
             </div>

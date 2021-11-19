@@ -46,6 +46,54 @@ adminRouters.get('/sach', async(req, res) => {
   .catch(err => res.send('0'));
 })
 
+// Thêm sách mới
+adminRouters.post('/themsach', async(req, res) => {
+  var pool = await conn;
+  var sqlString = "exec add_new_book @tenSach, @tacGia, @nxb, @namxb, @triGia, @theLoai, @ngay, @thang, @nam"
+  return await pool.request()
+  .input('tenSach', sql.NVarChar, req.body.tenSach)
+  .input('tacGia', sql.NVarChar, req.body.tacGia)
+  .input('nxb', sql.NVarChar, req.body.nxb)
+  .input('namxb', sql.Int, req.body.namxb)
+  .input('triGia', sql.Money, req.body.triGia)
+  .input('ngay', sql.Int, req.body.ngay)
+  .input('thang', sql.Int, req.body.thang)
+  .input('nam', sql.Int, req.body.nam)
+  .input('theLoai', sql.NVarChar, req.body.theLoai)
+  .query(sqlString)
+  .then(data => {
+    res.send(data);
+    }
+  )
+  .catch(err => res.send('0'));
+})
+
+// Xóa sách
+adminRouters.post('/xoasach', async(req, res) => {
+  var pool = await conn;
+  var sqlString = "delete from SACH " +
+                  "where TenSach=@tenSach " +
+                  "and TriGia=@triGia " +
+                  "and day(NgNhap)=@ngay and month(NgNhap)=@thang and year(NgNhap)=@nam";
+  return await pool.request()
+  .input('tenSach', sql.NVarChar, req.body.tenSach)
+  .input('tacGia', sql.NVarChar, req.body.tacGia)
+  .input('nxb', sql.NVarChar, req.body.nxb)
+  .input('namxb', sql.Int, req.body.namxb)
+  .input('triGia', sql.Money, req.body.triGia)
+  .input('ngay', sql.Int, req.body.ngay)
+  .input('thang', sql.Int, req.body.thang)
+  .input('nam', sql.Int, req.body.nam)
+  .input('theLoai', sql.NVarChar, req.body.theLoai)
+  .query(sqlString)
+  .then(data => {
+    console.log(data);
+    res.send(data);
+    }
+  )
+  .catch(err => res.send('0'));
+})
+
 
 //Lấy những sách đang được mượn
 adminRouters.get('/sachmuon', async(req, res) => {
@@ -61,6 +109,24 @@ adminRouters.get('/sachmuon', async(req, res) => {
     if(data.recordset.length >= 1) {
       res.send(data.recordset);
     } else res.send('0');
+  })
+  .catch(err => res.send('0'));
+})
+
+//Lập phiếu mượn sách
+adminRouters.post('/taophieumuonsach', async(req, res) => {
+  var pool = await conn;
+  var sqlString = "exec add_Phieu_Muon_Sach @idDocGia, @idSach, @sl, @ngay, @thang, @nam";
+  return await pool.request()
+  .input("idDocGia", sql.NVarChar, req.body.idDocGia)
+  .input("idSach", sql.NVarChar, req.body.idSach)
+  .input("sl", sql.Int, req.body.soLuong)
+  .input("ngay", sql.Int, req.body.ngay)
+  .input("thang", sql.Int, req.body.thang)
+  .input("nam", sql.Int, req.body.nam)
+  .query(sqlString)
+  .then(data => {
+    console.log(data);
   })
   .catch(err => res.send('0'));
 })

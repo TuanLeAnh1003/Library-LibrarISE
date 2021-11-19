@@ -1,6 +1,7 @@
-import React from 'react'
-import './BookCreate.css'
-import {useState} from 'react'
+import React from 'react';
+import './BookCreate.css';
+import axios from 'axios';
+import {useState} from 'react';
 
 function BookCreate() {
     const [bookName, setBookName] = useState('')
@@ -23,8 +24,28 @@ function BookCreate() {
             month != null &&
             year != null &&
             style !== '') {
-            // await axios.post()
-            // .then
+                
+            console.log(bookName, author, publisher, publishedYear, money, day, month, year, style);
+            axios.post('http://localhost:5000/admin/themsach', {
+                tenSach: bookName,
+                tacGia: author,
+                nxb: publisher,
+                namxb: publishedYear,
+                triGia: money,
+                ngay: day,
+                thang: month,
+                nam: year,
+                theLoai: style,
+            })
+            .then(res => {
+                console.log(res)
+                if(res.data[0] === 1) {
+                    alert('Thêm sách thành công!')
+                }
+                if(res.data[0] === -1) {
+                    alert('Sách bị trùng!')
+                }
+            })
         } else {
             alert("Vui lòng nhập đầy đủ thông tin")
         }
@@ -88,17 +109,16 @@ function BookCreate() {
             <i className="fas fa-business-time"></i>
             <label>Ngày lập thẻ</label>
             <span className="element__number-wrapper"
-                ><input type="number" min="1" max="31" value="10" onChange={e => setDay(e.target.value)}
+                ><input type="number" min="1" max="31" onChange={e => setDay(e.target.value)}
             /></span>
             <span className="element__number-wrapper"
-                ><input type="number" min="1" max="12" value="10" onChange={e => setMonth(e.target.value)}
+                ><input type="number" min="1" max="12" onChange={e => setMonth(e.target.value)}
             /></span>
             <span className="element__number-wrapper"
                 ><input
                 type="number"
                 min="1899"
                 max="2021"
-                value="2001"
                 onChange={e => setYear(e.target.value)}
             /></span>
             </div>
