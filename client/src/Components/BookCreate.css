@@ -1,25 +1,29 @@
 
   /*container*/
 .container-book-wrapper {
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 4;
-    width: 100%;
-    height: 1391px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 4;
+  width: 100%;
+  height: 1391px;
+  position: fixed;
+  top: 0;
+  align-items: center;
+  left: 0;
+  display: none;
+  padding-top: 100px;
 }
 
 .container-book-wrapper-remove {
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 4;
-    width: 100%;
-    height: 1391px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 4;
+  width: 100%;
+  height: 1391px;
+  position: fixed;
+  top: 0;
+  align-items: center;
+  left: 0;
+  display: none;
+  padding-top: 100px;
 }
 
   .container-book {
@@ -28,14 +32,12 @@
     align-items: center;
     width: 700px;
     height: 570px;
+    margin: 0 auto;
     border-radius: 7px;
     box-shadow: 0px -0.75px 15px rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
     padding: 50px 50px 0px 50px;
     background-color: white;
-    position: absolute;
-    top: 524px;
-    left: 408px;
   }
   /*header*/
   .container__header {
