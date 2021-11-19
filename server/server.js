@@ -24,6 +24,7 @@ adminRouters.post('/signin', async (req, res) => {
   .then(data => {
     if(data.recordset.length === 1) {
       res.send('1');
+      console.log(data.recordset)
     } else res.send('0');
   })
   .catch(err => res.send('0'));
@@ -171,7 +172,7 @@ adminRouters.get('/sachtra', async(req, res) => {
 adminRouters.get('/docgia', async(req, res) => {
   var pool = await conn;
   var sqlString = "select HoTen, NgSinh, NgLapThe, Email, DiaChi, LoaiDocGia " +
-                  "from PHIEUTRASACH"
+                  "from NGUOIDUNG2"
   return await pool.request()
   .query(sqlString)
   .then(data => {
@@ -185,4 +186,46 @@ adminRouters.get('/docgia', async(req, res) => {
 let PORT = 5000;
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);
+});
+
+// Tạo người dùng
+adminRouters.post('/docgia/tao', async (req, res) => {
+  var pool = await conn;
+  var sqlString = "insert into NGUOIDUNG2(HoTen, NgSinh, NgLapThe, Email, DiaChi, LoaiDocGia) values (@hoTen, @ngSinh, @ngLapThe, @email, @diaChi, @loaiDocGia)"
+  return await pool.request()
+  .input("hoTen", sql.NVarChar, req.body.hoTen)
+  .input("ngSinh", sql.Date, req.body.ngSinh)
+  .input("ngLapThe", sql.Date, req.body.ngLapThe)
+  .input("email", sql.NVarChar, req.body.email)
+  .input("diaChi", sql.NVarChar, req.body.diaChi)
+  .input("loaiDocGia", sql.NVarChar, req.body.loaiDocGia)
+  .query(sqlString)
+  .then (data => {
+    if(data.recordset.length === 1) {
+      res.send('1');
+      console.log(data.recordset)
+    } else res.send('0');
+  })
+  .catch(err => res.send('0'))
+});
+
+// Xóa người dùng
+adminRouters.post('/docgia/xoa', async (req, res) => {
+  var pool = await conn;
+  var sqlString = "delete from NGUOIDUNG2 where HoTen=@hoTen and NgSinh=@ngSinh and NgLapThe=@ngLapThe and Email=@email and DiaChi=@diaChi and LoaiDocGia=@loaiDocGia"
+  return await pool.request()
+  .input("hoTen", sql.NVarChar, req.body.hoTen)
+  .input("ngSinh", sql.Date, req.body.ngSinh)
+  .input("ngLapThe", sql.Date, req.body.ngLapThe)
+  .input("email", sql.NVarChar, req.body.email)
+  .input("diaChi", sql.NVarChar, req.body.diaChi)
+  .input("loaiDocGia", sql.NVarChar, req.body.loaiDocGia)
+  .query(sqlString)
+  .then (data => {
+    if(data.recordset.length === 1) {
+      res.send('1');
+      console.log(data.recordset)
+    } else res.send('0');
+  })
+  .catch(err => res.send('0'))
 });

@@ -53,7 +53,7 @@ function Users() {
                                 <td >{item.HoTen}</td>
                                 <td >{item.NgSinh}</td>
                                 <td >{item.NgLapThe}</td>
-                                <td >{item.Email}đ</td>
+                                <td >{item.Email}</td>
                                 <td >{item.DiaChi}</td>
                                 <td >{item.LoaiDocGia}</td>
                             </tr>

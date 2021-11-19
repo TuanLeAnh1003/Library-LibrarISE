@@ -13,10 +13,10 @@ function Navigation() {
                     <Link to="/thuvien/sach/" className="nav-item-link">Sách</Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/" className="nav-item-link">
+                    <p className="nav-item-link">
                         Phiếu
                         <i className="nav-item-link-icon fas fa-chevron-down"></i>
-                    </Link>
+                    </p>
                     <ul className="nav-item-list" id="nav-item-link-book">
                         <li className="nav-item-list-item">
                             <Link to="/thuvien/sachmuon" className="nav-item-list-item-link">Mượn sách</Link>
@@ -33,10 +33,10 @@ function Navigation() {
                     <Link to="/thuvien/nguoidung/" className="nav-item-link">Người dùng</Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/" className="nav-item-link">
+                    <p className="nav-item-link">
                         Thống kê
                         <i className="nav-item-link-icon fas fa-chevron-down"></i>
-                    </Link>
+                    </p>
                     <ul className="nav-item-list" id="nav-item-link-statistical">
                         <li className="nav-item-list-item">
                             <Link to="/thuvien/thongketheloai/" className="nav-item-list-item-link">Thể loại</Link>
