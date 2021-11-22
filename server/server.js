@@ -163,3 +163,39 @@ adminRouters.post('/docgia/xoa', async (req, res) => {
   })
   .catch(err => res.send('0'))
 });
+
+// Báo cáo thống kê theo thể loại
+adminRouters.get('/thongketheloai', async(req, res) => {
+  var pool = await conn;
+  var sqlString = "select TenTheLoai, TongSoLuotMuon " + 
+                  "from BAOCAOMUONSACH"
+  return await pool.request()
+  .query(sqlString)
+  .then(data => {
+    if(data.recordset.length >= 1) {
+      res.send(data.recordset);
+    } else res.send('0');
+  })
+  .catch(err => res.send('0'));
+})
+
+adminRouters.post('/thongketheloai/tao', async (req, res) => {
+  var pool = await conn;
+  var sqlString = "select TenTheLoai, COUNT(ct.ID_PhieuMuonSach) as SoLanMuon " + 
+                  "from THELOAI tl join SACH s on tl.ID_TheLoai = s.ID_TheLoai " + 
+                  "join CT_SACH_PMS ct on ct.ID_Sach = s.ID_Sach " + 
+                  "join PHIEUMUONSACH pms on pms.ID_PhieuMuonSach = ct.ID_PhieuMuonSach " + 
+                  "where MONTH(NgMuon) = @thang and YEAR(NgMuon) = @nam " + 
+                  "group by TenTheLoai"
+  return await pool.request()
+  .input("thang", sql.Int, req.body.month)
+  .input("nam", sql.Int, req.body.year)
+  .query(sqlString)
+  .then(data => {
+    if(data.recordset.length >= 0) {
+      res.send(data.recordset);
+    } else res.send('0');
+  })
+  .catch(err => res.send('0'));
+});
+

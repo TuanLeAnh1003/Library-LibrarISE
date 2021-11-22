@@ -45,17 +45,17 @@ function SignIn() {
     <div className="sign-in">
         <div className="sign-in__introduce">
             <h2 className="introduce__tittle">
-                Welcome to our Library LibrarIse !
+            Chào mừng đến với LibrarISE !
             </h2>
             <p className="introduce__description">
-                We arrange access to the world of information – whether online, multimedia or in print – and the training and support to exploit it to the full. Come and make the most of us!
+            Nhằm khắc phục những hạn chế theo cách quản lý truyền thống, website quản lý thư viện được thiết kế với nhiều ưu điểm vượt trội, giúp chuẩn hóa và nâng cao công tác quản lý.
             </p>
         </div>
 
         <div className="sign-in__form">
             <div action="" className="form__infor">
-                <h3 className="form__infor-title">Hello! Welcome back.</h3>
-                <p className="form__infor-description">Log in with your data that you entered during Your registration</p>
+                <h3 className="form__infor-title">Đăng nhập</h3>
+                <p className="form__infor-description">Chuẩn hóa và nâng cao công tác quản lý</p>
                 <input 
                     type="text" 
                     value={userName}
