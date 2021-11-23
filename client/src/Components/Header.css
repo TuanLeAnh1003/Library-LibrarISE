@@ -18,10 +18,12 @@
 }
 
 .header-top-notify {
+    position: relative;
     margin-left: 28px;
     height: 100%;
     align-items: center;
     display: flex;
+    cursor: pointer;
 }
 
 .header-top-notify-icon {

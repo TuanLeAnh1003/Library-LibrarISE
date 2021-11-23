@@ -32,22 +32,22 @@
     width: 147px;
     height: 40px;
     background-color: #25BFA2;
-    display: flex;
-    align-items: center;
     padding: 0;
     border-radius: 5px;
     border: none;
-    padding-left: 15px;
+    text-align: center;
 }
 
 .header-search-btn-icon {
     margin-right: 5px;
     font-size: 15px;
     color: white;
+    line-height: 40px;
 }
 
 .header-search-btn-title {
     font-size: 15px;
     color: white;
     font-weight: bold;
+    line-height: 40px;
 }

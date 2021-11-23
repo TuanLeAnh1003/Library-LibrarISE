@@ -4,6 +4,11 @@ import './Book.css'
 
 function Book() {
     const [books, setBooks] = useState([]);
+    const [reLoad, setReLoad] = useState(true);
+
+    const handleReLoad = () => {
+        setReLoad(!reLoad);
+    }
 
     useEffect(() => {
         axios.get('http://localhost:5000/admin/sach')
@@ -12,18 +17,31 @@ function Book() {
             else alert('Chưa có sách nào!');
         })
         .catch(err => alert('Có lỗi xảy ra. Hãy thử tải lại trang!'));
-    }, []);
+    }, [reLoad]);
 
     const handleAddBook = () => {
         const AddBook = document.querySelector('.container-book-wrapper')
-        
-        AddBook.style.display = 'block'
+        AddBook.style.display = 'block';
     }
 
     const handleRemoveBook = () => {
-        const RemoveBook = document.querySelector('.container-book-wrapper-remove')
-        
-        RemoveBook.style.display = 'block'
+        var listBooks = document.getElementsByName('bookInfo');
+        listBooks = Array.from(listBooks);
+        var chosenBooks = [];
+        for(var i = 0; i < listBooks.length; i++) {
+            if(listBooks[i].checked === true) {
+                chosenBooks.push(listBooks[i].value);
+            }
+        }
+        console.log(chosenBooks);
+        axios.post('http://localhost:5000/admin/xoasach', {chosenBooks: chosenBooks})
+        .then(res => {
+            if(res.data.rowsAffected.length >= 1) {
+                alert('Đã xóa sách thành công!');
+                handleReLoad();
+            }
+        })
+        .catch(err => alert("Đã có lỗi xảy ra. Hãy thử lại!"));
     }
     return (
         <div>
@@ -45,7 +63,7 @@ function Book() {
                         <tbody>
                             {books.map((item, index) => (
                                 <tr key={index}>
-                                    <td className="table__check"><input type="checkbox"/></td>
+                                    <td className="table__check"><input type="checkbox" name="bookInfo" value={item.TenSach + '/' + item.TenTacGia}/></td>
                                     <td className="table__stt">{index+1}</td>
                                     <td >{item.TenSach}</td>
                                     <td >{item.TenTheLoai}</td>

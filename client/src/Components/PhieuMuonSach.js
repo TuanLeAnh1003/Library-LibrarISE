@@ -3,22 +3,45 @@ import React, { useState } from 'react';
 import './PhieuMuonSach.css';
 
 function PhieuMuonSach({handleClick}) {
+  const [idList, setIdList] = useState([]);
+  const [bookList, setBookList] = useState([]);
 
   const [idReader, setIdReader] = useState('');
   const [day, setDay] = useState('');
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [idBook, setIdBook] = useState('');
-  const [number, setNumber] = useState('');
+  const [number, setNumber] = useState(0);
 
   const handleClickOK = () => {
-    if(idReader !== "" && day !== "" && month !== "" && year !== "" && idBook !== "" && number !== "") {
-      // await axios.post()
-      // .then
-      handleClick(false)
+    console.log(bookList)
+    if(idReader !== "" && day !== "" && month !== "" && year !== "") {
+      axios.post('http://localhost:5000/admin/taophieumuonsach', {
+        idDocGia: idReader,
+        ngay: day,
+        thang: month, 
+        nam: year,
+        listBooks: bookList,
+      })
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
     } else {
       alert('Có trường chưa được nhập!')
     }
+  }
+
+  const handleGetBook = async () => {
+    await axios.get(`http://localhost:5000/admin/laysach/${idBook}`)
+    .then(res => {
+      res.data.recordset[0].soLuong = number;
+      setBookList([...bookList,...res.data.recordset])
+      console.log(bookList);
+    })
+    .catch(err => console.log(err))
+  }
+
+  const handleRemove = (i) => {
+    setBookList(bookList.filter((item, index) => index !== i))
   }
 
   return (
@@ -27,7 +50,7 @@ function PhieuMuonSach({handleClick}) {
         <h2 className="container__header">LẬP PHIẾU MƯỢN SÁCH</h2>
         <div className="container__form-section">
           <div className="form-section__element">
-            <i class="fas fa-user-alt"></i>
+            <i className="fas fa-user-alt"></i>
             <label>Độc giả</label>
             <span className="element__button-wrapper">
               <input 
@@ -41,7 +64,7 @@ function PhieuMuonSach({handleClick}) {
           </div>
 
           <div className="form-section__element">
-            <i class="fas fa-calendar-alt"></i>
+            <i className="fas fa-calendar-alt"></i>
             <label>Ngày lập thẻ</label>
             <span className="element__number-wrapper">
               <input 
@@ -74,7 +97,7 @@ function PhieuMuonSach({handleClick}) {
         </div>
 
         <div className="form-section__element">
-          <i class="fas fa-book-open"></i>
+          <i className="fas fa-book-open"></i>
           <label>Sách mượn</label>
 
           <span className="element__button-wrapper">
@@ -84,7 +107,7 @@ function PhieuMuonSach({handleClick}) {
               placeholder="Nhập ID sách" 
               onChange={e => setIdBook(e.target.value)}
             />
-            <button className="button--submit">OK</button>
+            <button className="button--submit" onClick={handleGetBook}>OK</button>
           </span>
         </div>
         <div className="form-section__element">
@@ -102,24 +125,17 @@ function PhieuMuonSach({handleClick}) {
         <div className="container__table-PMS">
           <table className="table__book-PMS">
             <tbody>
-              <tr>
-                <td className="table__book-id">#123456</td>
-                <td className="table__book-name">CNPM</td>
-                <td>A</td>
-                <td>Hồ Thanh Phong</td>
-                <td className="table__button-wrapper">
-                  <button className="button--ignore">Xóa</button>
-                </td>
-              </tr>
-              <tr>
-                <td className="table__book-id">#123456</td>
-                <td className="table__book-name">CNPM</td>
-                <td>A</td>
-                <td>Hồ Thanh Phong</td>
-                <td className="table__button-wrapper">
-                  <button className="button--ignore">Xóa</button>
-                </td>
-              </tr>
+              {bookList.map((item, index) => (
+                <tr key={index}>
+                  <td className="table__book-id">{item.ID_Sach}</td>
+                  <td className="table__book-name">{item.TenSach}</td>
+                  <td>{item.TenTheLoai}</td>
+                  <td>{item.TenTacGia}</td>
+                  <td className="table__button-wrapper">
+                    <button className="button--ignore" onClick={() => handleRemove(index)}>Xóa</button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

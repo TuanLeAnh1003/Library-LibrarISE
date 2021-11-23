@@ -1,38 +1,39 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import './SignIn.css';
 
-function SignIn() {
+function SignIn({getUserName, getUserPass}) {
     const [userName, setUserName] = useState('');
     const [userPassword, setUserPassword] = useState('');
 
     const history = useHistory()
 
-    const handleSignIn = async () => {
+    const handleSignIn = () => {
         if(userName !== "" && userPassword !== "") {
-            await axios.post('http://localhost:5000/admin/signin', {
+            axios.post('http://localhost:5000/admin/signin', {
                 userName: userName,
                 userPassword: userPassword,
             })
-            .then(data => {
-                if(data.data === 1) {
-                    console.log(data);
+            .then(res => {
+                if(res.data.recordset.length === 1) {
+                    getUserName(res.data.recordset[0].USERNAME);
+                    getUserPass(res.data.recordset[0].USERPASS);
+                    console.log(userName, userPassword);
                     history.push('/thuvien/');
                 } else {
-                    console.log(data);
                     alert("Tài khoản này không tồn tại. Hãy thử lại!")
                     setUserName('');
                     setUserPassword('');
-            }                    
-
+                }                    
             })
             .catch(err => alert("Có lỗi xảy ra, vui lòng đăng nhập lại!"))
         } else {
             alert('Có trường vẫn chưa được nhập!');
         }
     }
+
+
 
     useEffect(() => {
         return () => {

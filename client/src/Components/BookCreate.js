@@ -39,15 +39,25 @@ function BookCreate() {
             })
             .then(res => {
                 console.log(res)
-                if(res.data[0] === 1) {
-                    alert('Thêm sách thành công!')
-                }
-                if(res.data[0] === -1) {
+                if(res.data.rowsAffected.length >= 1) {
+                    alert('Thêm sách thành công!');
+                    handleExit();
+                    setAuthor('');
+                    setBookName('');
+                    setDay('');
+                    setMonth('');
+                    setYear('');
+                    setPublisher('');
+                    setPublishedYear('');
+                    setStyle('');
+                    setMoney('');
+                } else {
                     alert('Sách bị trùng!')
                 }
             })
+            .catch(err => console.log(err))
         } else {
-            alert("Vui lòng nhập đầy đủ thông tin")
+            alert("Vui lòng nhập đầy đủ thông tin!")
         }
     }
 

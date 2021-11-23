@@ -34,7 +34,6 @@
 /*form section*/
 .container__PMS .container__form-section {
   margin: 30px 0px;
-  display: grid;
 }
 .container__PMS .form-section__element {
   display: flex;

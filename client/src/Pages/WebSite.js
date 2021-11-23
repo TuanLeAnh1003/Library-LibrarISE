@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import { Switch, Route } from 'react-router-dom';
@@ -17,17 +17,22 @@ import BookCreate from '../Components/BookCreate'
 import BookRemove from '../Components/BookRemove'
 import UsersCreate from '../Components/UsersCreate'
 import UsersRemove from '../Components/UsersRemove'
+import UsersUpdate from '../Components/UsersUpdate'
 import StyleList from '../Components/StyleList'
 
-function WebSite() {
+function WebSite({name, pass}) {
+  const userName = name;
+  const userPass = pass;
+
   return (
     <React.Fragment>
-      <Header />
+      <Header userName={name}/>
 
       <BookCreate />
       <BookRemove />
       <UsersCreate />
       <UsersRemove />
+      <UsersUpdate />
       <StyleList />
 
       <Switch>
@@ -35,7 +40,7 @@ function WebSite() {
         <Route path="/thuvien/tienphat"><TienPhat /></Route>
         <Route path="/thuvien/sachmuon"><SachMuon /></Route>
         <Route path="/thuvien/sachtra"><SachTra /></Route>
-        <Route path="/thuvien/account"><Account /></Route>
+        <Route path="/thuvien/account"><Account userName={userName} userPass={userPass}/></Route>
         <Route path="/thuvien/sach"><Book /></Route>
         <Route path="/thuvien/nguoidung/"><Users /></Route>
         <Route path="/thuvien/thongketheloai/"><StatisticsByCategory /></Route>

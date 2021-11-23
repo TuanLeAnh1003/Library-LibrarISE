@@ -1,11 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './HeaderBottom.css';
-import slideImg from '../Assets/Images/Image-slide.png';
-import buttonImg from '../Assets/Images/Image-button.png';
+import image1 from '../Assets/Images/image 1.png';
+import image2 from '../Assets/Images/image 2.png';
+import image3 from '../Assets/Images/image 3.png';
+import image4 from '../Assets/Images/image 4.png';
 
 function HeaderBottom() {
   const [page, setPage] = useState(0);
   const [move, setMove] = useState(0);
+
+  const arr = [image1, image2, image3, image4]
 
   const slide = useRef();
 
@@ -38,8 +42,8 @@ function HeaderBottom() {
         </div>
         <div className="headerBottom__slideWrap">
           <div className="headerBottom__slide" style={{left: -move+"px"}}>
-            {Array(4).fill().map((_, index) => (
-              <img key={index} src={slideImg} alt="Header slide" ref={slide}/>
+            {arr.map((item, index) => (
+              <img key={index} src={item} alt="Header slide" ref={slide}/>
             ))}
           </div>
         </div>
@@ -51,10 +55,10 @@ function HeaderBottom() {
 
       <div className="headerBottom__buttonWrap">
         <div className="headerBottom__button">
-          {Array(4).fill().map((_, index) => (
+          {arr.map((item, index) => (
             <img 
               key={index}
-              src={buttonImg} 
+              src={item} 
               alt="Header slide" 
               onClick={() => handleButton(index)}
               style={{opacity: index===page ? "0.6" : ""}}
