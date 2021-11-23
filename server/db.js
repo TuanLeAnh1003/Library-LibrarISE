@@ -3,7 +3,7 @@ const sql = require('mssql/msnodesqlv8');
 const config = {
   user: 'sa',
   password: '123456',
-  database: 'demo',
+  database: 'QLTV',
   server: 'localhost\\TUANLESERVER',
 }
 

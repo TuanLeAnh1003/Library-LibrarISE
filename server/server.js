@@ -165,20 +165,6 @@ adminRouters.post('/docgia/xoa', async (req, res) => {
 });
 
 // Báo cáo thống kê theo thể loại
-adminRouters.get('/thongketheloai', async(req, res) => {
-  var pool = await conn;
-  var sqlString = "select TenTheLoai, TongSoLuotMuon " + 
-                  "from BAOCAOMUONSACH"
-  return await pool.request()
-  .query(sqlString)
-  .then(data => {
-    if(data.recordset.length >= 1) {
-      res.send(data.recordset);
-    } else res.send('0');
-  })
-  .catch(err => res.send('0'));
-})
-
 adminRouters.post('/thongketheloai/tao', async (req, res) => {
   var pool = await conn;
   var sqlString = "select TenTheLoai, COUNT(ct.ID_PhieuMuonSach) as SoLanMuon " + 
