@@ -66,6 +66,7 @@
 
 .headerBottom__button img {
   object-fit: contain;
-  height: 86px;
+  width: 137px;
   margin: 0 4px;
+  cursor: pointer;
 }

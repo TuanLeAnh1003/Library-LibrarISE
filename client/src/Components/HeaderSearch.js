@@ -7,7 +7,7 @@ function HeaderSearch() {
             <input type="text" className="header-search-input" placeholder="Nhấn để tìm kiếm" />
             <button className="header-search-btn">
                 <i className="header-search-btn-icon fas fa-search"></i>
-                <p className="header-search-btn-title">Tìm kiếm</p>
+                <span className="header-search-btn-title">Tìm kiếm</span>
             </button>
         </div>
     )

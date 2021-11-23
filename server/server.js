@@ -23,12 +23,20 @@ adminRouters.post('/signin', async (req, res) => {
   .query(sqlString)
   .then(data => {
     if(data.recordset.length === 1) {
-      res.send('1');
-      console.log(data.recordset)
-    } else res.send('0');
+      res.send(data);
+    } else res.send(err);
   })
-  .catch(err => res.send('0'));
+  .catch(err => res.send(err));
 });
+
+adminRouters.get('/getUser/:account', async (req, res) => {
+  var pool = await conn;
+  var sqlString = `select * from ACCOUNT where USERID='${req.params.account}'`;
+  return await pool.request()
+  .query(sqlString)
+  .then(data => console.log(data))
+  .catch(err => console.log(err))
+})
 
 //Lấy sách khi mới vào trang sách
 adminRouters.get('/sach', async(req, res) => {
@@ -45,6 +53,47 @@ adminRouters.get('/sach', async(req, res) => {
     } else res.send('0');
   })
   .catch(err => res.send('0'));
+})
+
+// Thêm sách mới
+adminRouters.post('/themsach', async(req, res) => {
+  var pool = await conn;
+  var sqlString = "exec add_new_book @tenSach, @tacGia, @nxb, @namxb, @triGia, @theLoai, @ngay, @thang, @nam";
+  return await pool.request()
+  .input('tenSach', sql.NVarChar, req.body.tenSach)
+  .input('tacGia', sql.NVarChar, req.body.tacGia)
+  .input('nxb', sql.NVarChar, req.body.nxb)
+  .input('namxb', sql.Int, req.body.namxb)
+  .input('triGia', sql.Int, req.body.triGia)
+  .input('ngay', sql.Int, req.body.ngay)
+  .input('thang', sql.Int, req.body.thang)
+  .input('nam', sql.Int, req.body.nam)
+  .input('theLoai', sql.NVarChar, req.body.theLoai)
+  .query(sqlString)
+  .then(data => {
+    console.log(data);
+    res.send(data);
+    }
+  )
+  .catch(err => {console.log(err); res.send(err)});
+})
+
+// Xóa sách
+adminRouters.post('/xoasach', async(req, res) => {
+  var pool = await conn;
+  for (var i = 0; i < req.body.chosenBooks.length; i++) {
+    var sqlString = "exec remove_book @tenSach, @tacGia";
+    return await pool.request()
+    .input('tenSach', sql.NVarChar, req.body.chosenBooks[i].slice(0, req.body.chosenBooks[i].indexOf('/')))
+    .input('tacGia', sql.NVarChar, req.body.chosenBooks[i].slice(req.body.chosenBooks[i].indexOf('/')+1))
+    .query(sqlString)
+    .then(data => {
+      console.log(data, req.body.chosenBooks);
+      res.send(data);
+      }
+    )
+    .catch(err => res.send(err))
+  }
 })
 
 
@@ -64,6 +113,43 @@ adminRouters.get('/sachmuon', async(req, res) => {
     } else res.send('0');
   })
   .catch(err => res.send('0'));
+})
+
+//Lập phiếu mượn sách
+adminRouters.post('/taophieumuonsach', async (req, res) => {
+  var pool = await conn;
+  for(var j = 0; j < req.body.listBooks.length; j++) {
+    var sqlString = "exec add_Phieu_Muon_Sach @idDocGia, @idSach, @sl, @ngay, @thang, @nam";
+    return await pool.request()
+    .input("idDocGia", sql.VarChar, req.body.idDocGia)
+    .input("idSach", sql.VarChar, req.body.listBooks[j].ID_Sach)
+    .input("sl", sql.Int, req.body.listBooks[j].soLuong)
+    .input("ngay", sql.Int, req.body.ngay)
+    .input("thang", sql.Int, req.body.thang)
+    .input("nam", sql.Int, req.body.nam)
+    .query(sqlString)
+    .then(data => {
+      console.log(data, req.body.listBooks[j], j);
+      res.send(data);
+    })
+    .catch(err => res.send(err));
+  }
+});
+
+adminRouters.get('/laysach/:id', async (req, res) => {
+  var pool = await conn;
+  var id = req.params.id;
+  var sqlString = `select ID_Sach, TenSach, TenTheLoai, TenTacGia from SACH 
+                  join TACGIA on SACH.ID_TacGia = TACGIA.ID_TacGia 
+                  join THELOAI on SACH.ID_TheLoai = THELOAI.ID_TheLoai
+                  where ID_Sach = '${id}'`;
+  return await pool.request()
+  .query(sqlString)
+  .then(data => {
+    console.log(data);
+    res.send(data);
+  })
+  .catch(err => res.send(err))
 })
 
 //Thông tin các phiếu trả sách đã có
@@ -106,7 +192,7 @@ adminRouters.get('/sachtra', async(req, res) => {
 adminRouters.get('/docgia', async(req, res) => {
   var pool = await conn;
   var sqlString = "select HoTen, NgSinh, NgLapThe, Email, DiaChi, LoaiDocGia " +
-                  "from NGUOIDUNG2"
+                  "from THEDOCGIA"
   return await pool.request()
   .query(sqlString)
   .then(data => {

@@ -4,6 +4,7 @@ import './Users.css'
 
 function Users() {
     const [listReaderCards, setListReaderCards] = useState([]);
+    const [isAble, setIsAble] = useState(true);
 
     useEffect(() => {
         axios.get('http://localhost:5000/admin/docgia')
@@ -27,6 +28,22 @@ function Users() {
 
         removeUser.style.display = 'block'
     }
+    const handleUpdateUser = () => {
+        var listCards = document.getElementsByName('readerCard');
+        listCards = Array.from(listCards);
+        let count = 0;
+        for (var i = 0; i < listCards.length; i++) {
+            if(listCards[i].checked === true) count++;
+        }
+
+        if(count <= 1) {
+            const removeUser = document.querySelector('.users-update-wrapper')
+            removeUser.style.display = 'block'
+        } else {
+            setIsAble(false);
+        }
+        
+    }
 
     return (
         <div className="container">
@@ -48,7 +65,7 @@ function Users() {
                     <tbody>
                         {listReaderCards.map((item, index) => (
                             <tr key={index}>
-                                <td className="table__check"><input type="checkbox"/></td>
+                                <td className="table__check"><input type="checkbox" name="readerCard"/></td>
                                 <td className="table__stt">{index+1}</td>
                                 <td >{item.HoTen}</td>
                                 <td >{item.NgSinh}</td>
@@ -65,7 +82,7 @@ function Users() {
             <div className="container__button">
                 <button className="button" onClick={handleCreateUser}>Tạo thẻ</button>
                 <button className="button" onClick={handleRemoveUser}>Xóa thẻ</button>
-                <button className="button">Chỉnh sửa</button>
+                <button className="button" onClick={handleUpdateUser} disabled={isAble? "" : "disabled"}>Chỉnh sửa</button>
             </div>
 
 

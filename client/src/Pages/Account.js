@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import './Account.css';
 
-function Account() {
+function Account({userName, userPass}) {
   const [readerName, setReaderName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -28,8 +28,9 @@ function Account() {
 
   //mới đầu vào dùng useEffect để lấy thông tin user lên đưa vào placeholder
   useEffect(() => {
-    // await axios.get()
-    // .then()
+    axios.get('http://localhost:5000/admin/signin')
+    .then(res => console.log(res))
+    .catch(err =>  console.log(err))
   }, []);
 
   return (
@@ -46,7 +47,7 @@ function Account() {
                         <img src="./img/Edit.png" alt="photo"/>
                     </div>
                 </div>
-                <h3 className="header__name">Nguyen Duy An</h3>
+                <h3 className="header__name">{userName}</h3>
             </div>
             <form className="form">
                 <div className="form-group">
