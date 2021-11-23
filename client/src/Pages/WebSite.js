@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import { Switch, Route } from 'react-router-dom';
@@ -20,16 +20,18 @@ import UsersRemove from '../Components/UsersRemove'
 import UsersUpdate from '../Components/UsersUpdate'
 import StyleList from '../Components/StyleList'
 
-function WebSite({name, pass}) {
-  const userName = name;
-  const userPass = pass;
+function WebSite() {
+  const [books, infoBooks] = useState([]);
+  const childState = (state) => {
+    infoBooks([...state]);
+  }
 
   return (
     <React.Fragment>
-      <Header userName={name}/>
+      <Header/>
 
       <BookCreate />
-      <BookRemove />
+      <BookRemove books={books}/>
       <UsersCreate />
       <UsersRemove />
       <UsersUpdate />
@@ -40,8 +42,8 @@ function WebSite({name, pass}) {
         <Route path="/thuvien/tienphat"><TienPhat /></Route>
         <Route path="/thuvien/sachmuon"><SachMuon /></Route>
         <Route path="/thuvien/sachtra"><SachTra /></Route>
-        <Route path="/thuvien/account"><Account userName={userName} userPass={userPass}/></Route>
-        <Route path="/thuvien/sach"><Book /></Route>
+        <Route path="/thuvien/account"><Account /></Route>
+        <Route path="/thuvien/sach"><Book bookInfo={childState} /></Route>
         <Route path="/thuvien/nguoidung/"><Users /></Route>
         <Route path="/thuvien/thongketheloai/"><StatisticsByCategory /></Route>
         <Route path="/thuvien/thongketratre/"><StatisticsByDelay /></Route>

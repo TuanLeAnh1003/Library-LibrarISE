@@ -2,13 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Book.css'
 
-function Book() {
+function Book({bookInfo}) {
     const [books, setBooks] = useState([]);
-    const [reLoad, setReLoad] = useState(true);
-
-    const handleReLoad = () => {
-        setReLoad(!reLoad);
-    }
 
     useEffect(() => {
         axios.get('http://localhost:5000/admin/sach')
@@ -17,7 +12,7 @@ function Book() {
             else alert('Chưa có sách nào!');
         })
         .catch(err => alert('Có lỗi xảy ra. Hãy thử tải lại trang!'));
-    }, [reLoad]);
+    }, []);
 
     const handleAddBook = () => {
         const AddBook = document.querySelector('.container-book-wrapper')
@@ -25,23 +20,24 @@ function Book() {
     }
 
     const handleRemoveBook = () => {
+        var count = 0;
         var listBooks = document.getElementsByName('bookInfo');
         listBooks = Array.from(listBooks);
         var chosenBooks = [];
         for(var i = 0; i < listBooks.length; i++) {
             if(listBooks[i].checked === true) {
                 chosenBooks.push(listBooks[i].value);
+                count++;
             }
         }
-        console.log(chosenBooks);
-        axios.post('http://localhost:5000/admin/xoasach', {chosenBooks: chosenBooks})
-        .then(res => {
-            if(res.data.rowsAffected.length >= 1) {
-                alert('Đã xóa sách thành công!');
-                handleReLoad();
-            }
-        })
-        .catch(err => alert("Đã có lỗi xảy ra. Hãy thử lại!"));
+
+        bookInfo(chosenBooks);
+
+        if(count >= 1) {
+            const RemoveBook = document.querySelector('.container-book-wrapper-remove')
+            RemoveBook.style.display = 'block';
+        }
+        
     }
     return (
         <div>
