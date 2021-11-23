@@ -16,7 +16,7 @@ app.use('/admin/', adminRouters);
 // Đăng nhập
 adminRouters.post('/signin', async (req, res) => {
   var pool = await conn;
-  var sqlString = "select * from ACCOUNT where USERNAME=@userName and USERPASS=@userPassword";
+  var sqlString = "select * from THUTHU where UserName=@userName and UserPassword=@userPassword";
   return await pool.request()
   .input("userName", sql.NVarChar, req.body.userName)
   .input("userPassword", sql.NVarChar, req.body.userPassword)
@@ -31,7 +31,7 @@ adminRouters.post('/signin', async (req, res) => {
 
 adminRouters.get('/getUser/:account', async (req, res) => {
   var pool = await conn;
-  var sqlString = `select * from ACCOUNT where USERID='${req.params.account}'`;
+  var sqlString = `select * from THUTHU where USERID='${req.params.account}'`;
   return await pool.request()
   .query(sqlString)
   .then(data => console.log(data))
@@ -58,7 +58,7 @@ adminRouters.get('/sach', async(req, res) => {
 // Thêm sách mới
 adminRouters.post('/themsach', async(req, res) => {
   var pool = await conn;
-  var sqlString = "exec add_new_book @tenSach, @tacGia, @nxb, @namxb, @triGia, @theLoai, @ngay, @thang, @nam";
+  var sqlString = "exec add_new_book @tenSach, @tacGia, @theLoai, @nxb, @ngay, @thang, @nam, @namxb, @triGia";
   return await pool.request()
   .input('tenSach', sql.NVarChar, req.body.tenSach)
   .input('tacGia', sql.NVarChar, req.body.tacGia)
@@ -211,7 +211,7 @@ app.listen(PORT, () => {
 // Tạo người dùng
 adminRouters.post('/docgia/tao', async (req, res) => {
   var pool = await conn;
-  var sqlString = "insert into NGUOIDUNG2(HoTen, NgSinh, NgLapThe, Email, DiaChi, LoaiDocGia) values (@hoTen, @ngSinh, @ngLapThe, @email, @diaChi, @loaiDocGia)"
+  var sqlString = "insert into THEDOCGIA(HoTen, NgSinh, NgLapThe, Email, DiaChi, LoaiDocGia) values (@hoTen, @ngSinh, @ngLapThe, @email, @diaChi, @loaiDocGia)"
   return await pool.request()
   .input("hoTen", sql.NVarChar, req.body.hoTen)
   .input("ngSinh", sql.Date, req.body.ngSinh)
@@ -232,7 +232,7 @@ adminRouters.post('/docgia/tao', async (req, res) => {
 // Xóa người dùng
 adminRouters.post('/docgia/xoa', async (req, res) => {
   var pool = await conn;
-  var sqlString = "delete from NGUOIDUNG2 where HoTen=@hoTen and NgSinh=@ngSinh and NgLapThe=@ngLapThe and Email=@email and DiaChi=@diaChi and LoaiDocGia=@loaiDocGia"
+  var sqlString = "delete from THEDOCGIA where HoTen=@hoTen and NgSinh=@ngSinh and NgLapThe=@ngLapThe and Email=@email and DiaChi=@diaChi and LoaiDocGia=@loaiDocGia"
   return await pool.request()
   .input("hoTen", sql.NVarChar, req.body.hoTen)
   .input("ngSinh", sql.Date, req.body.ngSinh)
