@@ -56,88 +56,15 @@ function BookRemove() {
  
     return (
         <div className="container-book-wrapper-remove" onClick={handleExit}>
-            <div className="container-book" onClick={e => e.stopPropagation()}>
-        <h2 className="container__header">XÓA SÁCH</h2>
-        <div className="container__form-section">
-            <div className="form-section__element">
-            <i className="fas fa-id-badge"></i>
-            <label>Tên sách</label><br />
-            <input type="text" placeholder="CNPM" onChange={e => setBookName(e.target.value)}/>
-            </div>
-            <div className="form-section__element">
-            <i className="fas fa-user"></i>
-            <label>Tác giả</label><br />
-            <input type="text" placeholder="19521179@gm.uit.edu.vn" onChange={e => setAuthor(e.target.value)}/>
-            </div>
-            <div className="form-section__element">
-            <i className="fas fa-house-user"></i>
-            <label>Nhà xuất bản</label>
-            <input type="text" placeholder="Go Vap District, HCM city" onChange={e => setPublisher(e.target.value)} />
-            </div>
-            <div className="form-section__element-1">
-            <div className="form-section__element form-section__element-3">
-                <div className="form-section__element-wrapper">
-                <i className="fas fa-calculator"></i>
-                <label>Năm xuất bản</label>
+            <div className="container-book-remove" onClick={e => e.stopPropagation()}>
+                <h2 className="container__header">XÓA SÁCH</h2>
+                <p className="container-book-content">BẠN CÓ CHẮC CHẮN MUỐN XÓA SÁCH ĐÃ CHỌN KHỎI HỆ THỐNG ?</p>
+                <div className="container-book-btn">
+                    <button className="container-book-btn-cancel">Hủy bỏ</button>
+                    <button className="container-book-btn-remove">Xóa sách</button>
                 </div>
-                <span className="element__number-wrapper"
-                ><input
-                    type="number"
-                    min="1899"
-                    max="2021"
-                    onChange={e => setPublishedYear(e.target.value)}
-                /></span>
-            </div>
-            <div className="form-section__element form-section__element-3">
-                <div className="form-section__element-wrapper">
-                <i className="fas fa-coins"></i>
-                <label className="fo">Trị giá</label>
-                </div>
-                <input
-                className="form-section__element-input-gia"
-                type="number"
-                placeholder="30.000"
-                onChange={e => setMoney(e.target.value)}
-                />
-            </div>
-            </div>
-
-            <div className="form-section__element">
-            <i className="fas fa-business-time"></i>
-            <label>Ngày lập thẻ</label>
-            <span className="element__number-wrapper"
-                ><input type="number" min="1" max="31" onChange={e => setDay(e.target.value)}
-            /></span>
-            <span className="element__number-wrapper"
-                ><input type="number" min="1" max="12" onChange={e => setMonth(e.target.value)}
-            /></span>
-            <span className="element__number-wrapper"
-                ><input
-                type="number"
-                min="1899"
-                max="2021"
-                onChange={e => setYear(e.target.value)}
-            /></span>
-            </div>
-            <div className="form-section__element">
-            <i className="fas fa-book-open"></i>
-
-            <label>Thể loại</label>
-            <input type="text" placeholder="A" onChange={e => setStyle(e.target.value)}/>
-            </div>
+            </div>    
         </div>
-        
-        <span className="container__note-wrapper">
-        <p>
-          <br /><br /><b> BẠN CÓ CHẮC CHẮN MUỐN XÓA SÁCH NÀY KHỎI HỆ THỐNG?</b>
-        </p>
-      </span>
-      <span className="container__button-wrapper">
-        <button className="button--ignore" onClick={handleExit}>Hủy bỏ</button>
-        <button className="button--submit" onClick={handleRemoveBook}>Xóa sách</button>
-      </span>
-    </div>
-    </div>
     )
 }
 
