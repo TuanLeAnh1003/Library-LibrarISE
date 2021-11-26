@@ -232,22 +232,21 @@ adminRouters.post('/docgia/tao', async (req, res) => {
 // Xóa người dùng
 adminRouters.post('/docgia/xoa', async (req, res) => {
   var pool = await conn;
-  var sqlString = "delete from THEDOCGIA where HoTen=@hoTen and NgSinh=@ngSinh and NgLapThe=@ngLapThe and Email=@email and DiaChi=@diaChi and LoaiDocGia=@loaiDocGia"
-  return await pool.request()
-  .input("hoTen", sql.NVarChar, req.body.hoTen)
-  .input("ngSinh", sql.Date, req.body.ngSinh)
-  .input("ngLapThe", sql.Date, req.body.ngLapThe)
-  .input("email", sql.NVarChar, req.body.email)
-  .input("diaChi", sql.NVarChar, req.body.diaChi)
-  .input("loaiDocGia", sql.NVarChar, req.body.loaiDocGia)
-  .query(sqlString)
-  .then (data => {
-    if(data.recordset.length === 1) {
-      res.send('1');
-      console.log(data.recordset)
-    } else res.send('0');
-  })
-  .catch(err => res.send('0'))
+  for (var i = 0; i < req.body.chosenUsers.length; i++) {
+    console.log(req.body.chosenUsers);
+    var sqlString = "exec remove_user @hoTen, @diaChi"
+    return await pool.request()
+    .input("hoTen", sql.NVarChar, req.body.chosenUsers[i].slice(0, req.body.chosenUsers[i].indexOf('/')))
+    .input("diaChi", sql.NVarChar, req.body.chosenUsers[i].slice(req.body.chosenUsers[i].indexOf('/')+1))
+    .query(sqlString)
+    .then (data => {
+      if(data.recordset.length === 1) {
+        console.log(data);
+        res.send(data);
+      }
+    })
+    .catch(err => res.send(err))
+  }
 });
 
 // Báo cáo thống kê theo thể loại

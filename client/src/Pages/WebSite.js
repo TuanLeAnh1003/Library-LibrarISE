@@ -22,8 +22,13 @@ import StyleList from '../Components/StyleList'
 
 function WebSite() {
   const [books, infoBooks] = useState([]);
+  const [users, infoUser] = useState([]);
+
   const childState = (state) => {
     infoBooks([...state]);
+  }
+  const childState2 = (state) => {
+    infoUser([...state]);
   }
 
   return (
@@ -33,7 +38,7 @@ function WebSite() {
       <BookCreate />
       <BookRemove books={books}/>
       <UsersCreate />
-      <UsersRemove />
+      <UsersRemove users={users}/>
       <UsersUpdate />
       <StyleList />
 
@@ -44,7 +49,7 @@ function WebSite() {
         <Route path="/thuvien/sachtra"><SachTra /></Route>
         <Route path="/thuvien/account"><Account /></Route>
         <Route path="/thuvien/sach"><Book bookInfo={childState} /></Route>
-        <Route path="/thuvien/nguoidung/"><Users /></Route>
+        <Route path="/thuvien/nguoidung/"><Users userInfo={childState2} /></Route>
         <Route path="/thuvien/thongketheloai/"><StatisticsByCategory /></Route>
         <Route path="/thuvien/thongketratre/"><StatisticsByDelay /></Route>
         <Route path="/thuvien/caidat/"><Setting /></Route>

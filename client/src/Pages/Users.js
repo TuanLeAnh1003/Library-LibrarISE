@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Users.css'
 
-function Users() {
+function Users({userInfo}) {
     const [listReaderCards, setListReaderCards] = useState([]);
     const [isAble, setIsAble] = useState(true);
 
@@ -24,9 +24,22 @@ function Users() {
         createUser.style.display = 'block'
     }
     const handleRemoveUser = () => {
-        const removeUser = document.querySelector('.users-remove-wrapper')
+        var count = 0;
+        var listUsers = document.getElementsByName('readerCard')
+        listUsers = Array.from(listUsers)
+        var chosenUsers = []
+        for (var i = 0; i < listUsers.length; i++) {
+            if (listUsers[i].checked) {
+                chosenUsers.push(listUsers[i].value)
+                count++;
+            }
+        }
+        userInfo(chosenUsers)
+        if (count >= 1) {
+            const removeUser = document.querySelector('.users-remove-wrapper')
 
-        removeUser.style.display = 'block'
+            removeUser.style.display = 'block'
+        }
     }
     const handleUpdateUser = () => {
         var listCards = document.getElementsByName('readerCard');
@@ -65,7 +78,7 @@ function Users() {
                     <tbody>
                         {listReaderCards.map((item, index) => (
                             <tr key={index}>
-                                <td className="table__check"><input type="checkbox" name="readerCard"/></td>
+                                <td className="table__check"><input type="checkbox" name="readerCard" value={item.HoTen + "/" + item.DiaChi }/></td>
                                 <td className="table__stt">{index+1}</td>
                                 <td >{item.HoTen}</td>
                                 <td >{item.NgSinh}</td>
