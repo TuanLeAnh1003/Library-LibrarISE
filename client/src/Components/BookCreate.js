@@ -14,32 +14,34 @@ function BookCreate() {
     const [year, setYear] = useState()
     const [style, setStyle] = useState('')
 
-    const handleAddBook = () => {
+    const handleAddBook = async () => {
         if (bookName !== '' &&
             author !== '' &&
             publisher !== '' &&
-            publishedYear != null &&
-            money != null &&
-            day != null &&
-            month != null &&
-            year != null &&
+            publishedYear !== '' &&
+            money !== '' &&
+            day !== '' &&
+            month !== '' &&
+            year !== '' &&
             style !== '') {
-                
-            console.log(bookName, author, publisher, publishedYear, money, day, month, year, style);
+            
+            let ngayTao = new Date();
+            ngayTao.setDate(day);
+            ngayTao.setMonth(month);
+            ngayTao.setYear(year);
+            console.log(bookName, author, publisher, publishedYear, money, ngayTao, style);
             axios.post('http://localhost:5000/admin/themsach', {
                 tenSach: bookName,
                 tacGia: author,
                 nxb: publisher,
                 namxb: publishedYear,
                 triGia: money,
-                ngay: day,
-                thang: month,
-                nam: year,
+                ngayTao: ngayTao,
                 theLoai: style,
             })
             .then(res => {
                 console.log(res)
-                if(res.data.rowsAffected.length >= 1) {
+                if(res.data.rowsAffected.length >= 1 && res.data.rowsAffected[0] !== -1) {
                     alert('Thêm sách thành công!');
                     handleExit();
                     setAuthor('');
@@ -51,8 +53,9 @@ function BookCreate() {
                     setPublishedYear('');
                     setStyle('');
                     setMoney('');
-                } else {
-                    alert('Sách bị trùng!')
+                } 
+                if(res.data.rowsAffected[0] === -1) {
+                    alert('Sách xuất bản hơn 8 năm hoặc sai thể loại hoặc sách đã tồn tại trong thư viện!')
                 }
             })
             .catch(err => console.log(err))
@@ -75,17 +78,17 @@ function BookCreate() {
             <div className="form-section__element">
             <i className="fas fa-id-badge"></i>
             <label>Tên sách</label><br />
-            <input type="text" placeholder="CNPM" onChange={e => setBookName(e.target.value)}/>
+            <input type="text" placeholder="CNPM" value={bookName} onChange={e => setBookName(e.target.value)}/>
             </div>
             <div className="form-section__element">
             <i className="fas fa-user"></i>
             <label>Tác giả</label><br />
-            <input type="text" placeholder="19521179@gm.uit.edu.vn" onChange={e => setAuthor(e.target.value)}/>
+            <input type="text" placeholder="Tên tác giả" value={author} onChange={e => setAuthor(e.target.value)}/>
             </div>
             <div className="form-section__element">
             <i className="fas fa-house-user"></i>
             <label>Nhà xuất bản</label>
-            <input type="text" placeholder="Go Vap District, HCM city" onChange={e => setPublisher(e.target.value)} />
+            <input type="text" placeholder="Tên nhà xuất bản" value={publisher} onChange={e => setPublisher(e.target.value)} />
             </div>
             <div className="form-section__element-1">
             <div className="form-section__element form-section__element-3">
@@ -98,6 +101,7 @@ function BookCreate() {
                     type="number"
                     min="1899"
                     max="2021"
+                    placeholder="2021"
                     onChange={e => setPublishedYear(e.target.value)}
                 /></span>
             </div>
@@ -119,16 +123,17 @@ function BookCreate() {
             <i className="fas fa-business-time"></i>
             <label>Ngày lập thẻ</label>
             <span className="element__number-wrapper"
-                ><input type="number" min="1" max="31" onChange={e => setDay(e.target.value)}
+                ><input type="number" min="1" max="31" placeholder="1" onChange={e => setDay(e.target.value)}
             /></span>
             <span className="element__number-wrapper"
-                ><input type="number" min="1" max="12" onChange={e => setMonth(e.target.value)}
+                ><input type="number" min="1" max="12" placeholder="1" onChange={e => setMonth(e.target.value)}
             /></span>
             <span className="element__number-wrapper"
                 ><input
                 type="number"
                 min="1899"
                 max="2021"
+                placeholder="2021"
                 onChange={e => setYear(e.target.value)}
             /></span>
             </div>

@@ -4,6 +4,7 @@ import './Book.css'
 
 function Book({bookInfo}) {
     const [books, setBooks] = useState([]);
+    const [isAble, setIsAble] = useState(true);
 
     useEffect(() => {
         axios.get('http://localhost:5000/admin/sach')
@@ -38,6 +39,22 @@ function Book({bookInfo}) {
             RemoveBook.style.display = 'block';
         }
         
+    }
+
+    const handleUpdateBook = () => {
+        var listBooks = document.getElementsByName('bookInfo');
+        listBooks = Array.from(listBooks);
+        let count = 0;
+        for (var i = 0; i < listBooks.length; i++) {
+            if(listBooks[i].checked === true) count++;
+        }
+
+        if(count <= 1) {
+            const removeBook = document.querySelector('.users-update-wrapper')
+            removeBook.style.display = 'block'
+        } else {
+            setIsAble(false);
+        }
     }
     return (
         <div>
@@ -76,7 +93,7 @@ function Book({bookInfo}) {
                 <div className="container__button">
                     <button className="button" onClick={handleAddBook}>Thêm</button>
                     <button className="button" onClick={handleRemoveBook}>Xóa</button>
-                    <button className="button">Sửa</button>
+                    <button className="button" onClick={handleUpdateBook} disabled={isAble? "" : "disabled"}>Sửa</button>
                 </div>
             </div>
         </div>
