@@ -15,6 +15,7 @@ import StatisticsByDelay from './StatisticsByDelay'
 import Setting from './Setting'
 import BookCreate from '../Components/BookCreate'
 import BookRemove from '../Components/BookRemove'
+import BookUpdate from '../Components/BookUpdate'
 import UsersCreate from '../Components/UsersCreate'
 import UsersRemove from '../Components/UsersRemove'
 import UsersUpdate from '../Components/UsersUpdate'
@@ -37,6 +38,8 @@ function WebSite() {
 
       <BookCreate />
       <BookRemove books={books}/>
+      <BookUpdate />
+
       <UsersCreate />
       <UsersRemove users={users}/>
       <UsersUpdate />
