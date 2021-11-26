@@ -71,11 +71,11 @@
     border-style: none;
     font-family: Segoe UI;
 }
-.form__element input[type=text]{
+.create-reader__form .form__element input[type=text]{
     width: 250px;
     font-style: normal;
     font-weight: 350;
-    font-size: 8px;
+    font-size: 16px;
     padding: 0px 20px;
 }
 .form__element input[type=number]{

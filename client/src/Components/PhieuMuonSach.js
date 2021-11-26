@@ -35,7 +35,6 @@ function PhieuMuonSach({handleClick}) {
     .then(res => {
       res.data.recordset[0].soLuong = number;
       setBookList([...bookList,...res.data.recordset])
-      console.log(bookList);
     })
     .catch(err => console.log(err))
   }
