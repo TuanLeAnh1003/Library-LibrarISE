@@ -20,6 +20,9 @@ import UsersCreate from '../Components/UsersCreate'
 import UsersRemove from '../Components/UsersRemove'
 import UsersUpdate from '../Components/UsersUpdate'
 import StyleList from '../Components/StyleList'
+import PhieuMuonSachSua from '../Components/PhieuMuonSachSua';
+import PhieuTraSachSua from '../Components/PhieuTraSachSua';
+import PhieuThuTienPhatSua from '../Components/PhieuThuTienPhatSua';
 
 function WebSite() {
   const [books, infoBooks] = useState([]);
@@ -44,6 +47,10 @@ function WebSite() {
       <UsersRemove users={users}/>
       <UsersUpdate />
       <StyleList />
+
+      <PhieuMuonSachSua />
+      <PhieuTraSachSua />
+      <PhieuThuTienPhatSua />
 
       <Switch>
         <Route exact path="/thuvien"><BodyHome /></Route>

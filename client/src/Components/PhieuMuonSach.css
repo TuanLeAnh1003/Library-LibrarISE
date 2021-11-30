@@ -10,6 +10,18 @@
   z-index: 999;
 }
 
+.container-PMS__wrap-update {
+  display: none;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(15, 14, 14, 0.5);
+  z-index: 999;
+}
+
 .container__PMS {
   display: flex;
   flex-direction: column;
