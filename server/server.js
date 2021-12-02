@@ -240,10 +240,8 @@ adminRouters.post('/docgia/xoa', async (req, res) => {
     .input("diaChi", sql.NVarChar, req.body.chosenUsers[i].slice(req.body.chosenUsers[i].indexOf('/')+1))
     .query(sqlString)
     .then (data => {
-      if(data.recordset.length === 1) {
         console.log(data);
         res.send(data);
-      }
     })
     .catch(err => res.send(err))
   }

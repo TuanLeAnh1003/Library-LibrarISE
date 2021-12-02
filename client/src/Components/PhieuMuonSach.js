@@ -124,17 +124,24 @@ function PhieuMuonSach({handleClick}) {
         <div className="container__table-PMS">
           <table className="table__book-PMS">
             <tbody>
-              {bookList.map((item, index) => (
-                <tr key={index}>
-                  <td className="table__book-id">{item.ID_Sach}</td>
-                  <td className="table__book-name">{item.TenSach}</td>
-                  <td>{item.TenTheLoai}</td>
-                  <td>{item.TenTacGia}</td>
-                  <td className="table__button-wrapper">
-                    <button className="button--ignore" onClick={() => handleRemove(index)}>Xóa</button>
-                  </td>
-                </tr>
-              ))}
+              <tr>
+                <td class="table__book-id">#123456</td>
+                <td class="table__book-name">CNPM</td>
+                <td>A</td>
+                <td>Hồ Thanh Phong</td>
+                <td class="table__button-wrapper">
+                  <button class="button--ignore">Xóa</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="table__book-id">#123456</td>
+                <td class="table__book-name">CNPM</td>
+                <td>A</td>
+                <td>Hồ Thanh Phong</td>
+                <td class="table__button-wrapper">
+                  <button class="button--ignore">Xóa</button>
+                </td>
+              </tr> 
             </tbody>
           </table>
         </div>

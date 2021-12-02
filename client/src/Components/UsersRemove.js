@@ -14,10 +14,8 @@ function UsersRemove({users}) {
     const handleRemoveUser = () => {
         axios.post('http://localhost:5000/admin/docgia/xoa', {chosenUsers: users})
         .then(res => {
-            // console.log(res);
-            // console.log(res.data.rowsAffected);
             if(res.data.rowsAffected.length >= 1) {
-                 
+                alert("Xóa thành công")
                 handleExit();
             }
         })

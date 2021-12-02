@@ -75,7 +75,7 @@ function UsersCreate() {
                     <div className="form__element">
                         <i className="far fa-envelope"></i>
                         <label>Email</label>
-                        <input type="email" placeholder="19521179@gm.uit.edu.vn" onChange={e => setEmail(e.target.value)}/>
+                        <input type="text" placeholder="19521179@gm.uit.edu.vn" onChange={e => setEmail(e.target.value)}/>
                     </div>
                     <div className="form__element">
                         <i className="fas fa-birthday-cake"></i>
