@@ -71,7 +71,7 @@ function BookCreate() {
                     setMoney('');
                 } 
             })
-            .catch(err => {console.log(err); alert("Sách này đã tồn tại torng hệ thống!")})
+            .catch(err => {console.log(err); alert("Sách này đã tồn tại trong hệ thống!")})
         } 
     }
 

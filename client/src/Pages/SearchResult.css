@@ -47,3 +47,17 @@
   font-style: italic;
   font-weight: normal;
 }
+
+.search-result__not-found {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.search-result__not-found > img {
+  object-fit: contain;
+  width: 250px;
+}
+
+.search-result__not-found > h2 {
+  font-style: italic;
+}
