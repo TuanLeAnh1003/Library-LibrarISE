@@ -272,7 +272,7 @@ adminRouters.post('/docgia/xoa', async (req, res) => {
     .input("diaChi", sql.NVarChar, req.body.chosenUsers[i].slice(req.body.chosenUsers[i].indexOf('/')+1))
     .query(sqlString)
     .then (data => {
-        console.log(data);
+        // console.log(data, res.body.chosenUsers);
         res.send(data);
     })
     .catch(err => res.send(err))
