@@ -38,6 +38,23 @@ adminRouters.get('/getUser/:account', async (req, res) => {
   .catch(err => console.log(err))
 })
 
+// Tìm kiếm sách 
+app.get('/:sach', async (req, res) => {
+  var pool = await conn;
+  var name = req.params.sach.slice(1);
+  var sqlString = `select TenSach, TenTheLoai, TenTacGia, TriGia, TenNXB 
+                  from SACH join THELOAI on SACH.ID_TheLoai = THELOAI.ID_TheLoai 
+                  join TACGIA on SACH.ID_TacGia = TACGIA.ID_TacGia 
+                  join NHAXUATBAN on SACH.ID_NXB = NHAXUATBAN.ID_NXB 
+                  where TenSach like N'%${name}%'`
+  return await pool.request()
+  .query(sqlString)
+  .then(data => {
+      res.send(data.recordset);
+  })
+  .catch(err => res.send(err));
+});
+
 //Lấy sách khi mới vào trang sách
 adminRouters.get('/sach', async(req, res) => {
   var pool = await conn;
@@ -58,16 +75,14 @@ adminRouters.get('/sach', async(req, res) => {
 // Thêm sách mới
 adminRouters.post('/themsach', async(req, res) => {
   var pool = await conn;
-  var sqlString = "exec add_new_book @tenSach, @tacGia, @theLoai, @nxb, @ngay, @thang, @nam, @namxb, @triGia";
+  var sqlString = "exec add_new_book @tenSach, @tacGia, @theLoai, @nxb, @ngayTao, @namxb, @triGia";
   return await pool.request()
   .input('tenSach', sql.NVarChar, req.body.tenSach)
   .input('tacGia', sql.NVarChar, req.body.tacGia)
   .input('nxb', sql.NVarChar, req.body.nxb)
   .input('namxb', sql.Int, req.body.namxb)
-  .input('triGia', sql.Int, req.body.triGia)
-  .input('ngay', sql.Int, req.body.ngay)
-  .input('thang', sql.Int, req.body.thang)
-  .input('nam', sql.Int, req.body.nam)
+  .input('triGia', sql.Money, req.body.triGia)
+  .input('ngayTao', sql.Date, req.body.ngayTao)
   .input('theLoai', sql.NVarChar, req.body.theLoai)
   .query(sqlString)
   .then(data => {
@@ -75,7 +90,10 @@ adminRouters.post('/themsach', async(req, res) => {
     res.send(data);
     }
   )
-  .catch(err => {console.log(err); res.send(err)});
+  .catch(err => {
+    console.log(err); 
+    res.send(err);
+  });
 })
 
 // Xóa sách
@@ -104,7 +122,8 @@ adminRouters.get('/sachmuon', async(req, res) => {
                   "from SACH join THELOAI on SACH.ID_TheLoai = THELOAI.ID_TheLoai " +
                   "join TACGIA on SACH.ID_TacGia = TACGIA.ID_TacGia " +
                   "join NHAXUATBAN on SACH.ID_NXB = NHAXUATBAN.ID_NXB " +
-                  "join PHIEUMUONSACH on PHIEUMUONSACH.ID_PhieuMuonSach = CT_SACH_PMS.ID_PhieuMuonSach"
+                  "join CT_SACH_PMS  on SACH.ID_Sach = CT_SACH_PMS.ID_Sach " +
+                  "join PHIEUMUONSACH on PHIEUMUONSACH.ID_PhieuMuonSach = CT_SACH_PMS.ID_PhieuMuonSach";
   return await pool.request()
   .query(sqlString)
   .then(data => {
@@ -129,7 +148,6 @@ adminRouters.post('/taophieumuonsach', async (req, res) => {
     .input("nam", sql.Int, req.body.nam)
     .query(sqlString)
     .then(data => {
-      console.log(data, req.body.listBooks[j], j);
       res.send(data);
     })
     .catch(err => res.send(err));
@@ -156,9 +174,10 @@ adminRouters.get('/laysach/:id', async (req, res) => {
 adminRouters.get('/sachtra', async(req, res) => {
   var pool = await conn;
   var sqlString = "select PHIEUTRASACH.ID_TheDocGia, HoTen, NgMuon, TenSach, TienPhatKiNay, TienNoKiNay, TongNo " +
-                  "from PHIEUTRASACH join CT_SACH_PTS on PHIEUMUONSACH.ID_PhieuTraSach = CT_SACH_PTS.ID_PhieuTraSach" +
+                  "from PHIEUTRASACH join CT_SACH_PTS on PHIEUTRASACH.ID_PhieuTraSach = CT_SACH_PTS.ID_PhieuTraSach " +
                   "join SACH on SACH.ID_Sach = CT_SACH_PTS.ID_SACH " +
-                  "join THEDOCGIA on PHIEUTRASACH.ID_TheDocGia = THEDOCGIA.ID_TheDocGia";
+                  "join THEDOCGIA on PHIEUTRASACH.ID_TheDocGia = THEDOCGIA.ID_TheDocGia " +
+                  "join PHIEUTHUTIENPHAT on PHIEUTHUTIENPHAT.ID_TheDocGia = PHIEUTRASACH.ID_TheDocGia";
   return await pool.request()
   .query(sqlString)
   .then(data => {
@@ -169,9 +188,22 @@ adminRouters.get('/sachtra', async(req, res) => {
   .catch(err => res.send('0'));
 })
 
-//CHỈNH LAI SAU
 //Thông tin các phiếu thu tiền phạt đã có
-//CHỈNH LẠI SAU
+adminRouters.get('/tienphat', async(req, res) => {
+  var pool = await conn;
+  var sqlString = "select PHIEUTHUTIENPHAT.ID_TheDocGia, HoTen, TongNo, SoTienThu, ConLai " +
+                  "from PHIEUTHUTIENPHAT join THEDOCGIA on PHIEUTHUTIENPHAT.ID_TheDocGia = THEDOCGIA.ID_TheDocGia";
+  return await pool.request()
+  .query(sqlString)
+  .then(data => {
+    if(data.recordset.length >= 1) {
+      res.send(data.recordset);
+    } else res.send('0');
+  })
+  .catch(err => res.send('0'));
+})
+
+// Thông tin các sách đã được trả
 adminRouters.get('/sachtra', async(req, res) => {
   var pool = await conn;
   var sqlString = "select PHIEUTHUTIENPHAT.ID_TheDocGia, HoTen, NgMuon, TenSach, TienPhatKiNay, TienNoKiNay, TongNo " +
