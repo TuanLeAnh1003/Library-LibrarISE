@@ -27,6 +27,11 @@ function SachMuon() {
     setIsBorrow(state)
   }
 
+  const handleUpdate = () => {
+    const update = document.querySelector('.container-PMS__wrap-update')
+    update.style.display = 'flex'
+  }
+
   return (
     <div className="container-PMS">
       <div className="container__table">
@@ -62,7 +67,7 @@ function SachMuon() {
       <div className="container__button">
           <button className="button" onClick={handleAdd}>Thêm</button>
           <button className="button">Xóa</button>
-          <button className="button">Sửa</button>
+          <button className="button" onClick={handleUpdate}>Sửa</button>
       </div>
 
       {isBorrow ? <PhieuMuonSach handleClick={childState}/> : ""}

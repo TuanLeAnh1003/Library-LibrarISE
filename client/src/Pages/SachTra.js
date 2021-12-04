@@ -28,6 +28,11 @@ function SachTra() {
       setIsPay(state)
   }
 
+  const handleUpdate = () => {
+    const update = document.querySelector('.LPTS__wrapper-update')
+    update.style.display = 'flex'
+  }
+
   return (
     <div className="container-PTS">
       <div className="container-PTS__table">
@@ -67,7 +72,7 @@ function SachTra() {
       <div className="container__button">
           <button className="button" onClick={handleAdd}>Thêm</button>
           <button className="button">Xóa</button>
-          <button className="button">Sửa</button>
+          <button className="button" onClick={handleUpdate}>Sửa</button>
       </div>
 
       {isPay ? <PhieuTraSach handleClick={childState}/> : ""}

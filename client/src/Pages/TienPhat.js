@@ -27,6 +27,11 @@ function TienPhat() {
     .catch(err => console.log(err))
   }, [])
 
+  const handleUpdate = () => {
+    const update = document.querySelector('.phieuthu-update')
+    update.style.display = 'flex'
+  }
+
   return (
     <div className="container-PTTP">
         <div className="container__table">
@@ -63,7 +68,7 @@ function TienPhat() {
         <div className="container__button">
             <button className="button" onClick={handleAdd}>Thêm</button>
             <button className="button">Xóa</button>
-            <button className="button">Sửa</button>
+            <button className="button" onClick={handleUpdate}>Sửa</button>
         </div>
 
       {isAdd ? <PhieuThuTienPhat handleClick={childState}/> : ""}

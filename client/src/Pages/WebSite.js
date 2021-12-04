@@ -15,17 +15,26 @@ import StatisticsByDelay from './StatisticsByDelay'
 import Setting from './Setting'
 import BookCreate from '../Components/BookCreate'
 import BookRemove from '../Components/BookRemove'
+import BookUpdate from '../Components/BookUpdate'
 import UsersCreate from '../Components/UsersCreate'
 import UsersRemove from '../Components/UsersRemove'
 import UsersUpdate from '../Components/UsersUpdate'
 import StyleList from '../Components/StyleList'
 import SearchResult from './SearchResult';
+import PhieuMuonSachSua from '../Components/PhieuMuonSachSua';
+import PhieuTraSachSua from '../Components/PhieuTraSachSua';
+import PhieuThuTienPhatSua from '../Components/PhieuThuTienPhatSua';
 
 function WebSite() {
   const [books, infoBooks] = useState([]);
   const [input, setInput] = useState('');
+  const [users, infoUser] = useState([]);
+
   const childState = (state) => {
     infoBooks([...state]);
+  }
+  const childState2 = (state) => {
+    infoUser([...state]);
   }
 
   const childSearchState = (state) => {
@@ -38,10 +47,16 @@ function WebSite() {
 
       <BookCreate />
       <BookRemove books={books}/>
+      <BookUpdate />
+
       <UsersCreate />
-      <UsersRemove />
+      <UsersRemove users={users}/>
       <UsersUpdate />
       <StyleList />
+
+      <PhieuMuonSachSua />
+      <PhieuTraSachSua />
+      <PhieuThuTienPhatSua />
 
       <Switch>
         <Route exact path="/thuvien"><BodyHome /></Route>
@@ -50,7 +65,7 @@ function WebSite() {
         <Route path="/thuvien/sachtra"><SachTra /></Route>
         <Route path="/thuvien/account"><Account /></Route>
         <Route path="/thuvien/sach"><Book bookInfo={childState} /></Route>
-        <Route path="/thuvien/nguoidung/"><Users /></Route>
+        <Route path="/thuvien/nguoidung/"><Users userInfo={childState2} /></Route>
         <Route path="/thuvien/thongketheloai/"><StatisticsByCategory /></Route>
         <Route path="/thuvien/thongketratre/"><StatisticsByDelay /></Route>
         <Route path="/thuvien/caidat/"><Setting /></Route>

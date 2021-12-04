@@ -50,8 +50,8 @@ function Book({bookInfo}) {
         }
 
         if(count <= 1) {
-            const removeBook = document.querySelector('.users-update-wrapper')
-            removeBook.style.display = 'block'
+            const updateBook = document.querySelector('.container-book-wrapper-update')
+            updateBook.style.display = 'block'
         } else {
             setIsAble(false);
         }

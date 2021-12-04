@@ -1,9 +1,8 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './PhieuMuonSach.css';
 
-function PhieuMuonSach({handleClick}) {
-  const [idList, setIdList] = useState([]);
+function PhieuMuonSachSua({handleClick}) {
   const [bookList, setBookList] = useState([]);
 
   const [idReader, setIdReader] = useState('');
@@ -12,24 +11,6 @@ function PhieuMuonSach({handleClick}) {
   const [year, setYear] = useState('');
   const [idBook, setIdBook] = useState('');
   const [number, setNumber] = useState(0);
-
-  const handleClickOK = () => {
-
-    console.log(bookList)
-    if(idReader !== "" && day !== "" && month !== "" && year !== "") {
-      axios.post('http://localhost:5000/admin/taophieumuonsach', {
-        idDocGia: idReader,
-        ngay: day,
-        thang: month, 
-        nam: year,
-        listBooks: bookList,
-      })
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
-    } else {
-      alert('Có trường chưa được nhập!')
-    }
-  }
 
   const handleGetBook = async () => {
     await axios.get(`http://localhost:5000/admin/laysach/${idBook}`)
@@ -44,10 +25,16 @@ function PhieuMuonSach({handleClick}) {
     setBookList(bookList.filter((item, index) => index !== i))
   }
 
+  const handleExit = () => {
+      const updateExit = document.querySelector('.container-PMS__wrap-update')
+
+      updateExit.style.display = 'none'
+  }
+
   return (
-    <div className="container-PMS__wrap" onClick={() => handleClick(false)}>
+    <div className="container-PMS__wrap-update" onClick={handleExit}>
       <div className="container__PMS" onClick={e => e.stopPropagation()}>
-        <h2 className="container__header">LẬP PHIẾU MƯỢN SÁCH</h2>
+        <h2 className="container__header">SỬA PHIẾU MƯỢN SÁCH</h2>
         <div className="container__form-section">
           <div className="form-section__element">
             <i className="fas fa-user-alt"></i>
@@ -125,29 +112,29 @@ function PhieuMuonSach({handleClick}) {
         <div className="container__table-PMS">
           <table className="table__book-PMS">
             <tbody>
-              <tr>
-                <td class="table__book-id">#123456</td>
-                <td class="table__book-name">CNPM</td>
-                <td>A</td>
-                <td>Hồ Thanh Phong</td>
-                <td class="table__button-wrapper">
-                  <button class="button--ignore">Xóa</button>
-                </td>
-              </tr>
-              <tr>
-                <td class="table__book-id">#123456</td>
-                <td class="table__book-name">CNPM</td>
-                <td>A</td>
-                <td>Hồ Thanh Phong</td>
-                <td class="table__button-wrapper">
-                  <button class="button--ignore">Xóa</button>
-                </td>
-              </tr> 
+              <tr >
+                  <td class="table__book-id">#123456</td>
+                  <td class="table__book-name">CNPM</td>
+                  <td>A</td>
+                  <td >Hồ Thanh Phong</td>
+                  <td class="table__button-wrapper">
+                    <button class="button--ignore">Xóa</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="table__book-id">#123456</td>
+                  <td class="table__book-name">CNPM</td>
+                  <td>A</td>
+                  <td>Hồ Thanh Phong</td>
+                  <td class="table__button-wrapper">
+                    <button class="button--ignore">Xóa</button>
+                  </td>
+                </tr>
             </tbody>
           </table>
         </div>
         <span className="container__button-wrapper">
-          <button className="button--submit" onClick={handleClickOK}>OK</button>
+          <button className="button--submit">OK</button>
         </span>
       </div>
     </div>
@@ -155,4 +142,4 @@ function PhieuMuonSach({handleClick}) {
   )
 }
 
-export default PhieuMuonSach
+export default PhieuMuonSachSua

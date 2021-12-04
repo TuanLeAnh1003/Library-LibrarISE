@@ -55,6 +55,7 @@ function UsersCreate() {
                 })
                 .then(data => {
                     alert("Thêm thành công")
+                    handleExit();
                 })
             } else {
                 alert('Có trường chưa được nhập')
