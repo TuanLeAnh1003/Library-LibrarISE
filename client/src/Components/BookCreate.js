@@ -15,16 +15,32 @@ function BookCreate() {
     const [style, setStyle] = useState('')
 
     const handleAddBook = async () => {
-        if (bookName !== '' &&
-            author !== '' &&
-            publisher !== '' &&
-            publishedYear !== '' &&
-            money !== '' &&
-            day !== '' &&
-            month !== '' &&
-            year !== '' &&
-            style !== '') {
-            
+        if (bookName === '' ||
+            author === '' ||
+            publisher === '' ||
+            publishedYear === null ||
+            money === null ||
+            day === null ||
+            month === null ||
+            year === null ||
+            style === '') {
+            alert("Có thông tin vẫn chưa được nhập!")
+        } else if (year > (new Date()).getFullYear()) {
+            alert("Ngày lập thẻ phải bé hơn hoặc bằng ngày hiện tại!")
+        } else if (typeof(parseInt(day)) !== "number" || typeof(parseInt(month)) !== "number" || typeof(parseInt(year)) !== "number" || day === "e" || month === "e" || year === "e") {
+            console.log(day, month, year)
+            alert("Ngày tháng năm phải là số"); 
+        } else if (typeof(parseInt(money)) !== "number"){
+            alert("Trị giá phải là số!")
+        } else if ((new Date()).getFullYear() - publishedYear >= 8) {
+            alert("Sách phải xuất bản torng vòng 8 năm!")
+        } else if(publishedYear > year) {
+            alert("Năm xuất bản phải bé hơn năm nhập thẻ!")
+        } else if (!(style.includes("A") || style.includes("B") || style.includes("C"))) {
+            alert("Thể loại phải là A hoặc B hoặc C");
+            console.log(typeof(style));
+        } 
+        else  {
             let ngayTao = new Date();
             ngayTao.setDate(day);
             ngayTao.setMonth(month);
@@ -54,14 +70,9 @@ function BookCreate() {
                     setStyle('');
                     setMoney('');
                 } 
-                if(res.data.rowsAffected[0] === -1) {
-                    alert('Sách xuất bản hơn 8 năm hoặc sai thể loại hoặc sách đã tồn tại trong thư viện!')
-                }
             })
-            .catch(err => console.log(err))
-        } else {
-            alert("Vui lòng nhập đầy đủ thông tin!")
-        }
+            .catch(err => {console.log(err); alert("Sách này đã tồn tại torng hệ thống!")})
+        } 
     }
 
     const handleExit = () => {
@@ -141,7 +152,7 @@ function BookCreate() {
             <i className="fas fa-book-open"></i>
 
             <label>Thể loại</label>
-            <input type="text" placeholder="A" onChange={e => setStyle(e.target.value)}/>
+            <input type="text" placeholder="Thể loại" onChange={e => setStyle(e.target.value)}/>
             </div>
         </div>
         

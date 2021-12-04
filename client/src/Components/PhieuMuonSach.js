@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './PhieuMuonSach.css';
 
 function PhieuMuonSach({handleClick}) {
@@ -14,6 +14,7 @@ function PhieuMuonSach({handleClick}) {
   const [number, setNumber] = useState(0);
 
   const handleClickOK = () => {
+
     console.log(bookList)
     if(idReader !== "" && day !== "" && month !== "" && year !== "") {
       axios.post('http://localhost:5000/admin/taophieumuonsach', {

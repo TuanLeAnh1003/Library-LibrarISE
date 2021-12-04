@@ -8,11 +8,15 @@ import Inform from './Inform'
 
 import Logo from '../Assets/Images/logo-white.png'
 
-function Header({userName}) {
+function Header({userName, handleInputSearch}) {
     const [isShow, setIsShow] = useState(false);
 
     const handleInform = () => {
         setIsShow(!isShow);
+    }
+
+    const childSearchState = (state) => {
+        handleInputSearch(state);
     }
 
     return (
@@ -21,7 +25,7 @@ function Header({userName}) {
                 <div className="header-top-logo">
                     <img className="header-top-logo-img" src={Logo} alt="logo" />
                 </div>
-                <HeaderSearch />
+                <HeaderSearch handleGetInput={childSearchState}/>
 
                 <div className="header-top-notify" onClick={handleInform}>
                     <i className="header-top-notify-icon far fa-bell"></i>

@@ -5,7 +5,7 @@ import axios from 'axios';
 
 function TienPhat() {
   const [isAdd, setIsAdd] = useState(false);
-  const [list, setList] = useState([]);
+  const [listFinedMoney, setListFinedMoney] = useState([]);
 
   const handleAdd = () => {
     setIsAdd(true);
@@ -16,9 +16,16 @@ function TienPhat() {
   }
 
   useEffect(() => {
-    // axios.get()
-    // .then()
-  }, [list])
+    axios.get("http://localhost:5000/admin/tienphat")
+    .then(res => {
+        if(res.data.length >= 1) {
+        setListFinedMoney([...res.data]);
+      } else {
+        alert("Không có phiếu phạt!");
+      }
+    })
+    .catch(err => console.log(err))
+  }, [])
 
   return (
     <div className="container-PTTP">
@@ -37,15 +44,18 @@ function TienPhat() {
                 </thead>
 
                 <tbody>
-                    <tr>
+                  {listFinedMoney.map((item, index) => (
+                    <tr key={index}>
                         <td className="table__check"><input type="checkbox" /></td>
-                        <td className="table__stt">1</td>
-                        <td>0001</td>
-                        <td>Jane Cooper</td>
-                        <td>5000đ</td>
-                        <td>5000đ</td>
-                        <td>0đ</td>
+                        <td className="table__stt">{index+1}</td>
+                        <td>{item.ID_TheDocGia}</td>
+                        <td>{item.HoTen}</td>
+                        <td>{item.TongNo}đ</td>
+                        <td>{item.SoTienThu}đ</td>
+                        <td>{item.ConLai}đ</td>
                     </tr>
+                  ))}
+                    
                 </tbody> 
             </table>
         </div>

@@ -19,16 +19,22 @@ import UsersCreate from '../Components/UsersCreate'
 import UsersRemove from '../Components/UsersRemove'
 import UsersUpdate from '../Components/UsersUpdate'
 import StyleList from '../Components/StyleList'
+import SearchResult from './SearchResult';
 
 function WebSite() {
   const [books, infoBooks] = useState([]);
+  const [input, setInput] = useState('');
   const childState = (state) => {
     infoBooks([...state]);
   }
 
+  const childSearchState = (state) => {
+    setInput(state);
+  }
+
   return (
     <React.Fragment>
-      <Header/>
+      <Header handleInputSearch={childSearchState}/>
 
       <BookCreate />
       <BookRemove books={books}/>
@@ -48,6 +54,7 @@ function WebSite() {
         <Route path="/thuvien/thongketheloai/"><StatisticsByCategory /></Route>
         <Route path="/thuvien/thongketratre/"><StatisticsByDelay /></Route>
         <Route path="/thuvien/caidat/"><Setting /></Route>
+        <Route path="/thuvien/timkiem"><SearchResult search={input}/></Route>
       </Switch>
       
       <Footer />

@@ -9,14 +9,14 @@ function SachTra() {
 
   useEffect(() => {
     axios.get('http://localhost:5000/admin/sachtra')
-    .then(data => {
+    .then(data => {console.log(data)
       if(data.data.length >= 1) {
         setListReturnedBooks([...data.data]);
       } else {
-        alert("Không có sách đang được mượn!");
+        alert("Không có sách được trả!");
       }
     })
-    .catch(err => alert('Có lỗi xảy ra. Hãy thử tải lại trang!'));
+    .catch(err => {console.log(err);alert('Có lỗi xảy ra. Hãy thử tải lại trang!')});
 
   }, []);
 
