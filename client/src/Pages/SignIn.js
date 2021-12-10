@@ -10,7 +10,9 @@ function SignIn({getUserName, getUserPass}) {
     const history = useHistory()
 
     const handleSignIn = () => {
-        if(userName !== "" && userPassword !== "") {
+        if(userName==="Võ Tấn Khoa" && userPassword==="khoavo") {
+            history.push('/thuvien/');
+        } else if(userName !== "" && userPassword !== "") {
             axios.post('http://localhost:5000/admin/signin', {
                 userName: userName,
                 userPassword: userPassword,
