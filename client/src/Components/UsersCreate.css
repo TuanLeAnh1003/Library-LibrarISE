@@ -89,6 +89,24 @@
     width: 30px;
     height: 30px;
 }
+
+.form-email {
+    width: 250px;
+    padding-left: 20px;
+}
+
+.form-submit {
+    font-weight: 900;
+    font-size: 17px;
+    color: #ffffff;
+    border-radius: 7px;
+    padding: 8px 60px;
+    border-style: none;
+    margin: 20px;
+    cursor: pointer;
+    background: linear-gradient(180deg, #25BFA2 0%, #348D7C 100%);
+}
+
 .element__number-wrapper {
   position: relative;
 }

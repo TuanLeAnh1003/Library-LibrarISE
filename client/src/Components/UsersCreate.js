@@ -22,6 +22,7 @@ function UsersCreate() {
     }
 
     const handleCreateUser = async () => {
+        
         const ngSinh = new Date()
         const ngLapThe = new Date()
 
@@ -34,17 +35,25 @@ function UsersCreate() {
 
         console.log(ngSinh, ngLapThe);
 
-        if (name !== '' && 
-            email !== '' && 
-            birthday != null &&
-            birthmonth != null &&
-            birthyear != null &&
-            address !== '' && 
-            cardDay != null &&
-            cardMonth != null &&
-            cardYear != null &&
-            styleUser !== '') {
-
+        if (name === '' || 
+            email === '' || 
+            birthday == null ||
+            birthmonth == null ||
+            birthyear == null ||
+            address === '' || 
+            cardDay == null ||
+            cardMonth == null ||
+            cardYear == null ||
+            styleUser === '') {
+                alert('Có trường chưa được nhập')
+            } else if (birthyear > cardYear) 
+            {
+                alert("Năm lập thẻ phải lớn hơn năm sinh");
+            } else if (!(email.includes("@"))) 
+            {
+                alert("Vui lòng nhập lại email!")
+            } else
+            {
                 await axios.post('http://localhost:5000/admin/docgia/tao', {
                     hoTen: name,
                     ngSinh: ngSinh,
@@ -57,13 +66,11 @@ function UsersCreate() {
                     alert("Thêm thành công")
                     handleExit();
                 })
-            } else {
-                alert('Có trường chưa được nhập')
             }
     }
 
     return (
-        <div className="users-create-wrapper" onClick={handleExit}>
+        <form className="users-create-wrapper" onClick={handleExit}>
                 <div className="container__create-reader" onClick={e => e.stopPropagation()}>
                 <h2 className="create-reader__header">LẬP THẺ ĐỘC GIẢ</h2>
                 <div className="create-reader__form">
@@ -75,7 +82,7 @@ function UsersCreate() {
                     <div className="form__element">
                         <i className="far fa-envelope"></i>
                         <label>Email</label>
-                        <input type="text" placeholder="19521179@gm.uit.edu.vn" onChange={e => setEmail(e.target.value)}/>
+                        <input className="form-email" id="email" type="email" placeholder="19521179@gm.uit.edu.vn" onChange={e => setEmail(e.target.value)}/>
                     </div>
                     <div className="form__element">
                         <i className="fas fa-birthday-cake"></i>
@@ -110,14 +117,13 @@ function UsersCreate() {
                     </div>
                 </div>
                 <span className="create-reader__button-wrapper">
-                    <button className="button--submit" onClick={handleCreateUser}>Tạo thẻ</button>
+                    <input type="submit" className="form-submit" onClick={handleCreateUser} value="Tạo thẻ" />
                 </span>
                 <span className="create-reader__note-wrapper">
                     <p>*Thẻ có giá trị trong vòng 06 tháng kể từ ngày lập thẻ</p>
                 </span>
                 </div>
-
-        </div>
+        </form>
     )
 }
 
