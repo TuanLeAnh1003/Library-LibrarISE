@@ -10,7 +10,7 @@ function HeaderAccount({name}) {
     return (
         <div className="header-account">
             <Link to="/thuvien/account/"><img className="header-account-avatar" src={Avatar} alt="Avatar"/></Link>
-            <p className="header-account-name">{name}</p>
+            <p className="header-account-name">Võ Tấn Khoa</p>
             <i className="header-account-down fas fa-caret-down"></i>
         </div>
     )
