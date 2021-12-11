@@ -51,7 +51,16 @@ function UsersCreate() {
                 alert("Năm lập thẻ phải lớn hơn năm sinh");
             } else if (!(email.includes("@"))) 
             {
-                alert("Vui lòng nhập lại email!")
+                alert("Vui lòng nhập lại email!");
+            } else if (birthyear > (new Date()).getFullYear()) 
+            {
+                alert("Năm sinh phải nhỏ hơn năm hiện tại");
+            } else if (cardYear > (new Date()).getFullYear())
+            {
+                alert("Năm lập thẻ phải nhỏ hơn năm hiện tại");
+            } else if ((new Date()).getMonth() + 6 > cardMonth) 
+            {
+                alert("Thẻ vượt quá thời hạn sử dụng");
             } else
             {
                 await axios.post('http://localhost:5000/admin/docgia/tao', {
